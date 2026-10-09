@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('screen-2'),
         document.getElementById('screen-3'),
         document.getElementById('screen-4'),
+        document.getElementById('screen-location'),
         document.getElementById('screen-5')
     ];
 
@@ -12,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedDate = '';
     let selectedTime = '';
     let selectedFood = '';
+    let selectedLocation = '';
+    let isMeetingPoint = false;
 
     // --- Helper function for screen transition ---
     function showScreen(index) {
@@ -98,20 +101,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const timeInput = document.getElementById('time-input');
     const errorMsg = document.getElementById('datetime-error');
 
-    // Set minimum date to today
+    // Set minimum date
     if (dateInput) {
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.setAttribute('min', today);
+        dateInput.setAttribute('min', '2026-10-12');
     }
 
     if (btnNext3) {
         btnNext3.addEventListener('click', () => {
             if (dateInput.value && timeInput.value) {
-                selectedDate = dateInput.value;
-                selectedTime = timeInput.value;
-                errorMsg.classList.add('hidden');
-                showScreen(3); // Go to Screen 4
+                if (dateInput.value < '2026-10-12' || timeInput.value < '18:30') {
+                    errorMsg.textContent = 'Пожалуйста, выбери дату не раньше 12.10.2026 и время не раньше 18:30!';
+                    errorMsg.classList.remove('hidden');
+                } else {
+                    selectedDate = dateInput.value;
+                    selectedTime = timeInput.value;
+                    errorMsg.classList.add('hidden');
+                    showScreen(3); // Go to Screen 4
+                }
             } else {
+                errorMsg.textContent = 'Пожалуйста, выбери дату и время!';
                 errorMsg.classList.remove('hidden');
             }
         });
@@ -127,12 +135,48 @@ document.addEventListener('DOMContentLoaded', () => {
             foodCards.forEach(c => c.classList.remove('border-blue-500', 'bg-blue-100'));
             card.classList.add('border-blue-500', 'bg-blue-100');
 
-            // Transition to Screen 5 after a tiny delay
+            // Transition to Location Screen after a tiny delay
             setTimeout(() => {
-                finishAndShowScreen5();
+                showScreen(4); // Go to Location Screen
             }, 300);
         });
     });
+
+    // --- Screen Location Logic ---
+    const locationToggle = document.getElementById('location-toggle');
+    const locationTitle = document.getElementById('location-title');
+    const locationInput = document.getElementById('location-input');
+    const btnNextLocation = document.getElementById('btn-next-location');
+
+    if (locationToggle && locationTitle && locationInput) {
+        locationToggle.addEventListener('change', (e) => {
+            isMeetingPoint = e.target.checked;
+            if (isMeetingPoint) {
+                locationTitle.textContent = 'Где встретимся? 📍';
+                locationInput.placeholder = 'Введи место встречи...';
+            } else {
+                locationTitle.textContent = 'Куда за тобой заехать? 🚗';
+                locationInput.placeholder = 'Введи адрес или ориентир...';
+            }
+        });
+    }
+
+    if (locationInput && btnNextLocation) {
+        locationInput.addEventListener('input', (e) => {
+            if (e.target.value.trim() !== '') {
+                btnNextLocation.removeAttribute('disabled');
+                btnNextLocation.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                btnNextLocation.setAttribute('disabled', 'true');
+                btnNextLocation.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        });
+
+        btnNextLocation.addEventListener('click', () => {
+            selectedLocation = locationInput.value.trim();
+            finishAndShowScreen5();
+        });
+    }
 
     // --- Screen 5 Logic (Final) ---
     function finishAndShowScreen5() {
@@ -144,7 +188,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('final-time').textContent = selectedTime;
         document.getElementById('final-food').textContent = selectedFood;
 
-        showScreen(4); // Go to Screen 5
+        const locationStatus = document.getElementById('final-location-status');
+        if (isMeetingPoint) {
+            locationStatus.textContent = `Место встречи: ${selectedLocation}`;
+        } else {
+            locationStatus.textContent = `Заеду за тобой: ${selectedLocation}`;
+        }
+
+        showScreen(5); // Go to Screen 5 (index 5)
         startEmojiAnimation();
     }
 
@@ -152,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('emoji-container');
         container.classList.remove('hidden');
 
-        const emojis = ['💙', '✨', '💖', '🥰', '🍕', '🍱', '🍔'];
+        const emojis = ['💙', '✨', '💖', '🥰', '🍕', '🍱', '🍔', '🚶‍♀️', '🌳', '🎡', '🎢'];
 
         // Create an emoji every 300ms
         setInterval(() => {
