@@ -1,0 +1,68 @@
+/* Hide element visually but keep it in DOM */
+.hidden {
+    display: none !important;
+}
+
+/* Animations for screen transitions */
+.screen-container {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.screen-container.active {
+    opacity: 1;
+    transform: translateY(0);
+    display: block; /* Tailwind overrides this so we use active class to show */
+}
+
+/* Special styling for the No button to allow it to move freely */
+#btnNo {
+    transition: left 0.3s ease, top 0.3s ease, transform 0.2s ease;
+    z-index: 50;
+}
+
+/* Food cards styling */
+.food-card {
+    transition: all 0.2s ease-in-out;
+}
+.food-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px -1px rgba(236, 72, 153, 0.1), 0 2px 4px -1px rgba(236, 72, 153, 0.06);
+}
+
+/* Date/Time inputs custom styling to match theme */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(0.5) sepia(1) saturate(3) hue-rotate(300deg);
+}
+
+/* Heart Animation */
+.heart {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ec4899"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center center;
+    background-size: contain;
+    opacity: 0;
+    animation: floatUp 4s ease-in-out infinite;
+    z-index: 0;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 0;
+        transform: translateY(100vh) scale(0.5) rotate(0deg);
+    }
+    20% {
+        opacity: 0.8;
+    }
+    80% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10vh) scale(1.2) rotate(360deg);
+    }
+}

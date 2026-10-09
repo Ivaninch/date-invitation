@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение на свидание</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Nunito -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-pink-50 min-h-screen flex items-center justify-center font-nunito overflow-hidden relative selection:bg-pink-200">
+    <!-- App Container -->
+    <div id="app" class="w-full max-w-md p-6 relative z-10">
+
+        <!-- Screen 1: Initial Question -->
+        <div id="screen1" class="screen-container active bg-white p-8 rounded-3xl shadow-lg text-center transform transition-all duration-500">
+            <h1 class="text-2xl md:text-3xl font-bold text-pink-600 mb-8">Ты пойдешь со мной на свидание? 🥺</h1>
+            <div class="flex justify-center gap-4 relative h-16 w-full items-center">
+                <button id="btnYes1" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-md transition-transform hover:scale-110 active:scale-95 text-lg">
+                    Да
+                </button>
+                <button id="btnNo" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 px-8 rounded-full shadow-md text-lg absolute right-1/4 translate-x-1/2">
+                    Нет
+                </button>
+            </div>
+        </div>
+
+        <!-- Screen 2: Surprise -->
+        <div id="screen2" class="screen-container hidden bg-white p-8 rounded-3xl shadow-lg text-center transform transition-all duration-500">
+            <h2 class="text-xl md:text-2xl font-bold text-pink-600 mb-6">Подожди, ты действительно сказала да? 😳</h2>
+            <p class="text-gray-600 mb-8 text-lg">Я был готов, что скажешь 'нет' ахах</p>
+            <button id="btnYes2" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-md transition-transform hover:scale-110 active:scale-95 text-lg w-full">
+                Да Да Да! ❤️
+            </button>
+        </div>
+
+        <!-- Screen 3: Date and Time -->
+        <div id="screen3" class="screen-container hidden bg-white p-8 rounded-3xl shadow-lg text-center transform transition-all duration-500">
+            <h2 class="text-2xl font-bold text-pink-600 mb-6">И так... Когда ты свободна? 🗓️</h2>
+
+            <div class="flex flex-col gap-4 mb-8 text-left">
+                <div>
+                    <label for="dateInput" class="block text-gray-700 text-sm font-bold mb-2">Дата:</label>
+                    <input type="date" id="dateInput" class="shadow appearance-none border border-pink-200 rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-shadow">
+                </div>
+                <div>
+                    <label for="timeInput" class="block text-gray-700 text-sm font-bold mb-2">Время:</label>
+                    <input type="time" id="timeInput" class="shadow appearance-none border border-pink-200 rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-shadow">
+                </div>
+            </div>
+
+            <button id="btnNext3" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-md transition-transform hover:scale-110 active:scale-95 text-lg w-full disabled:opacity-50 disabled:cursor-not-allowed">
+                Далее
+            </button>
+        </div>
+
+        <!-- Screen 4: Food Choice -->
+        <div id="screen4" class="screen-container hidden bg-white p-6 rounded-3xl shadow-lg text-center transform transition-all duration-500 max-w-lg mx-auto">
+            <h2 class="text-2xl font-bold text-pink-600 mb-6">Что ты хочешь? 😋</h2>
+
+            <div class="grid grid-cols-2 gap-4 mb-6" id="foodGrid">
+                <!-- Food cards -->
+                <div class="food-card cursor-pointer border-2 border-pink-100 rounded-2xl p-4 hover:border-pink-400 hover:bg-pink-50 transition-all flex flex-col items-center justify-center gap-2" data-food="Пиццу">
+                    <span class="text-4xl">🍕</span>
+                    <span class="font-bold text-gray-700">Пицца</span>
+                </div>
+                <div class="food-card cursor-pointer border-2 border-pink-100 rounded-2xl p-4 hover:border-pink-400 hover:bg-pink-50 transition-all flex flex-col items-center justify-center gap-2" data-food="Суши">
+                    <span class="text-4xl">🍣</span>
+                    <span class="font-bold text-gray-700">Суши</span>
+                </div>
+                <div class="food-card cursor-pointer border-2 border-pink-100 rounded-2xl p-4 hover:border-pink-400 hover:bg-pink-50 transition-all flex flex-col items-center justify-center gap-2" data-food="Бургеры">
+                    <span class="text-4xl">🍔</span>
+                    <span class="font-bold text-gray-700">Бургер</span>
+                </div>
+                <div class="food-card cursor-pointer border-2 border-pink-100 rounded-2xl p-4 hover:border-pink-400 hover:bg-pink-50 transition-all flex flex-col items-center justify-center gap-2" data-food="Пасту">
+                    <span class="text-4xl">🍝</span>
+                    <span class="font-bold text-gray-700">Паста</span>
+                </div>
+                <div class="food-card cursor-pointer border-2 border-pink-100 rounded-2xl p-4 hover:border-pink-400 hover:bg-pink-50 transition-all flex flex-col items-center justify-center gap-2" data-food="Ролтон">
+                    <span class="text-4xl">🍜</span>
+                    <span class="font-bold text-gray-700">Ролтон</span>
+                </div>
+                <div class="food-card cursor-pointer border-2 border-pink-100 rounded-2xl p-4 hover:border-pink-400 hover:bg-pink-50 transition-all flex flex-col items-center justify-center gap-2" data-food="Рамен">
+                    <span class="text-4xl">🍜</span>
+                    <span class="font-bold text-gray-700">Рамен</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 5: Final -->
+        <div id="screen5" class="screen-container hidden bg-white p-8 rounded-3xl shadow-lg text-center transform transition-all duration-500 relative z-20">
+            <h2 class="text-3xl font-bold text-pink-600 mb-6">Ура! 🎉</h2>
+            <p class="text-gray-700 text-lg leading-relaxed">
+                Рад, что не отказалась. Будь готова к <br>
+                <span id="finalDate" class="font-bold text-pink-500 text-xl inline-block mt-2"></span> в <span id="finalTime" class="font-bold text-pink-500 text-xl inline-block mt-2"></span>,<br>
+                я приеду за тобой!<br><br>
+                Выбранное блюдо: <span id="finalFood" class="font-bold text-pink-500 text-xl inline-block"></span>
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Hearts Container -->
+    <div id="heartsContainer" class="fixed inset-0 pointer-events-none z-0 hidden"></div>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>
