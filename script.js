@@ -172,8 +172,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        btnNextLocation.addEventListener('click', () => {
+        async function sendToTelegram() {
+            const locationType = isMeetingPoint ? 'Место встречи' : 'Заехать за ней';
+            const text = `🎉 Ответ на приглашение!\n\n📅 Дата: ${selectedDate}\n⏰ Время: ${selectedTime}\n🍕 Планы: ${selectedFood}\n📍 Локация: ${selectedLocation}\n(Тип локации: ${locationType})`;
+
+            try {
+                await fetch('https://api.telegram.org/bot8857367796:AAGkrw1-j7VlMQTSDdvji45K-3ilzrZCNpk/sendMessage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: '820307875',
+                        text: text
+                    })
+                });
+            } catch (error) {
+                console.error('Ошибка отправки в Telegram:', error);
+            }
+        }
+
+        btnNextLocation.addEventListener('click', async () => {
             selectedLocation = locationInput.value.trim();
+
+            const originalText = btnNextLocation.textContent;
+            btnNextLocation.textContent = 'Сохраняем...';
+            btnNextLocation.setAttribute('disabled', 'true');
+            btnNextLocation.classList.add('opacity-50', 'cursor-not-allowed');
+
+            await sendToTelegram();
+
             finishAndShowScreen5();
         });
     }
